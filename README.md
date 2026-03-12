@@ -1,42 +1,33 @@
-# Weather App
+# Interface Météo — Transports en Commun
 
-Check the current weather on any city on the planet. Switch between metric and imperial units.
+Application météo destinée aux écrans d'information des réseaux de transport en commun.
 
-![Alt img](https://images.ctfassets.net/zlsyc9paq6sa/3uBrJ07WSM40FpolgjInHY/7d886cb4187b52194bf9b63c183a1d3a/1627637330_x.gif)
+## Configuration de la ville
 
-## Features
+Éditez le fichier `config/city.json` avant déploiement :
 
-1. User's ability to search cities
+```json
+{
+  "city": "Arles",
+  "country": "FR",
+  "latitude": 43.6768,
+  "longitude": 4.6278,
+  "timezone": "Europe/Paris",
+  "transport": {
+    "network": "Envia'Bus",
+    "logo": "/icons/transport-logo.png"
+  }
+}
+```
 
-2. Current local time and date
+## Installation et lancement
 
-3. Temperatures and humidity
-
-4. Wind speed and direction
-
-5. Sunrise and sunset times
-
-6. Metric vs Imperial system
-
-7. Error handling and loading info
-
-## Installation
-
-1. `git clone https://github.com/madzadev/weather-app.git`
-
-2. `cd weather-app`
-
-3. `npm install`
-
-4. Log-in to [Openweathermap.com](https://openweathermap.org/)
-
-5. Create an API key
-
-6. `cp .env.example .env.local`
-
-7. Paste API key for `OPENWEATHER_API_KEY`
-
-8. `npm run dev`
+```bash
+npm install
+npm run dev       # développement : http://localhost:3000
+npm run build     # build de production
+npm run start     # démarrage en production
+```
 
 ## Contributions
 

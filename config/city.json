@@ -1,0 +1,11 @@
+{
+  "city": "Arles",
+  "country": "FR",
+  "latitude": 43.6768,
+  "longitude": 4.6278,
+  "timezone": "Europe/Paris",
+  "transport": {
+    "network": "simplon transport",
+    "logo": "/icons/transport-logo.png"
+  }
+}
