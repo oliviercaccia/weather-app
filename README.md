@@ -4,17 +4,18 @@ Application météo destinée aux écrans d'information des réseaux de transpor
 
 ## Configuration de la ville
 
-Éditez le fichier `config/city.json` avant déploiement :
+l'API utilise le geocoding Open-Meteo pour trouver automatiquement les coordonnées et le timezone à partir du nom de la ville pour cela éditez le fichier `config/city.json` avant déploiement :
+
+Pour changer de ville, il suffit de modifier uniquement "city" dans le JSON.
+
+Exemple: Remplacer Quissac par Nantes.
 
 ```json
 {
-  "city": "Arles",
+  "city": "Quissac",
   "country": "FR",
-  "latitude": 43.6768,
-  "longitude": 4.6278,
-  "timezone": "Europe/Paris",
   "transport": {
-    "network": "Envia'Bus",
+    "network": "simplon transport",
     "logo": "/icons/transport-logo.png"
   }
 }
