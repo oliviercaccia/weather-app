@@ -2,8 +2,22 @@ import cityConfig from "../../config/city.json";
 
 export default async function handler(req, res) {
   try {
-    const { city, country, latitude, longitude, timezone } = cityConfig;
+    const { city, country } = cityConfig;
 
+    // 1. Geocoding — trouve les coordonnées depuis le nom de la ville
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=fr&format=json`;
+    const geoResponse = await fetch(geoUrl);
+    const geoData = await geoResponse.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      return res
+        .status(404)
+        .json({ error: true, message: `Ville "${city}" introuvable` });
+    }
+
+    const { latitude, longitude, timezone } = geoData.results[0];
+
+    // 2. Météo avec les coordonnées trouvées
     const params = new URLSearchParams({
       latitude,
       longitude,
@@ -23,7 +37,6 @@ export default async function handler(req, res) {
     });
 
     const url = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
-
     const response = await fetch(url);
     const raw = await response.json();
 
@@ -37,12 +50,7 @@ export default async function handler(req, res) {
         sunrise: Math.floor(new Date(d.sunrise[0]).getTime() / 1000),
         sunset: Math.floor(new Date(d.sunset[0]).getTime() / 1000),
       },
-      weather: [
-        {
-          code: c.weather_code,
-          is_day: c.is_day,
-        },
-      ],
+      weather: [{ code: c.weather_code, is_day: c.is_day }],
       main: {
         temp: c.temperature_2m,
         feels_like: c.apparent_temperature,
@@ -53,6 +61,8 @@ export default async function handler(req, res) {
         deg: c.wind_direction_10m,
       },
       visibility: c.visibility,
+      timezone: raw.utc_offset_seconds,
+      dt: Math.floor(new Date(c.time).getTime() / 1000),
     };
 
     res.status(200).json(data);
